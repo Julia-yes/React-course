@@ -1,0 +1,9 @@
+@import '../../styles/variables.scss';
+
+.input {
+  border: none;
+  border-radius: 15px;
+  border: 3px solid $turquoise;
+  padding: 10px;
+  outline: none;
+}

@@ -1,0 +1,83 @@
+@import '../../styles/variables.scss';
+
+.wrapper {
+  border: 2px solid $turquoise-dark;
+  padding: 10px;
+  border-radius: 15px;
+  width: 300px;
+  background-color: $turquoise;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.cardTop {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.avatar {
+  width: 70px;
+  min-height: 70px;
+  border-radius: 50%;
+  border: 3px solid $turquoise-dark;
+  object-fit: cover;
+}
+
+.title {
+  color: $turquoise-dark;
+  font-size: 22px;
+  transition: color 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    color: $salmon;
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.icon {
+  color: white;
+  cursor: pointer;
+  transition: color 0.3s;
+
+  &:hover {
+    color: $salmon;
+  }
+
+  &:active {
+    color: $turquoise-dark;
+  }
+}
+
+.value {
+  color: white;
+}
+
+.city {
+  color: white;
+}
