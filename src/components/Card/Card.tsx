@@ -15,7 +15,7 @@ export class Card extends React.Component<Props, { searchValue: string }> {
       <div className={styles.wrapper}>
         <div className={styles.cardTop}>
           <div className={styles.userInfo}>
-            <img src={this.props.img} className={styles.avatar}></img>
+            <img src={this.props.img} className={styles.avatar} alt='avatar'></img>
             <div className={styles.content}>
               <h3 className={styles.title}>{this.props.name}</h3>
               <div className={styles.city}>{this.props.city}</div>
