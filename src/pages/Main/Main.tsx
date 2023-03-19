@@ -12,13 +12,14 @@ export class Main extends React.Component<Props, { searchValue: string }> {
   constructor(props: Props) {
     super(props);
     this.state = { searchValue: '' };
+    this.changeSearchValue = this.changeSearchValue.bind(this);
   }
 
-  changeSearchValue = (value: string) => {
+  changeSearchValue(value: string) {
     this.setState({
       searchValue: value,
     });
-  };
+  }
 
   render() {
     return (
