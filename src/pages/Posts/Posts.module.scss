@@ -1,0 +1,42 @@
+@import '../../styles/variables.scss';
+
+.wrapper {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.titleNoPosts {
+  color: $turquoise-dark;
+  font-size: 30px;
+  padding-top: 30px;
+}
+
+.button {
+  padding: 10px;
+  width: 150px;
+  background-color: $turquoise;
+  color: white;
+  border: 3px solid white;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: $turquoise-dark;
+    border-color: $turquoise;
+  }
+  
+}
+
+.postWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}

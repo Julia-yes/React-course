@@ -8,6 +8,9 @@ export const Header = () => {
         <NavLink to='/' className={styles.link}>
           Main
         </NavLink>
+        <NavLink to='/posts' className={styles.link}>
+          My posts
+        </NavLink>
         <NavLink to='/about' className={styles.link}>
           About us
         </NavLink>
