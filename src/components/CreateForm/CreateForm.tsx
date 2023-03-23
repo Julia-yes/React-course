@@ -20,7 +20,6 @@ export class CreateForm extends React.Component<
 > {
   private category: React.RefObject<HTMLSelectElement>;
   private title: React.RefObject<HTMLInputElement>;
-  private checkbox: React.RefObject<HTMLInputElement>;
   private color1: React.RefObject<HTMLInputElement>;
   private color2: React.RefObject<HTMLInputElement>;
   private date: React.RefObject<HTMLInputElement>;
@@ -40,7 +39,6 @@ export class CreateForm extends React.Component<
     this.category = React.createRef();
     this.title = React.createRef();
     this.description = React.createRef();
-    this.checkbox = React.createRef();
     this.date = React.createRef();
     this.file = React.createRef();
     this.color1 = React.createRef();
@@ -91,7 +89,7 @@ export class CreateForm extends React.Component<
       title: this.title.current?.value,
       category: this.category.current?.value,
       description: this.description.current?.value,
-      isDate: this.checkbox.current?.checked,
+      isDate: this.state.isDate,
       file: this.state.file,
       color: this.color1.current?.checked
         ? this.color1.current.value
@@ -231,7 +229,7 @@ export class CreateForm extends React.Component<
         </div>
         <label>
           <span className={styles.label}>Show date of the photo:</span>
-          <input type='checkbox' ref={this.checkbox} onChange={this.changeIsDate} />
+          <input type='checkbox' checked={this.state.isDate} onChange={this.changeIsDate} />
         </label>
         {this.state.isDate && (
           <div className={styles.block}>
