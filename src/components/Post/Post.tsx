@@ -5,6 +5,7 @@ export const Post = ({ title, category, description, isDate, file, color, date }
   return (
     <section
       className={styles.wrapper}
+      data-testid='sectionTest'
       style={{
         backgroundColor:
           color === 'Salmon' ? '#fb8372' : color === 'Turquoise' ? '#6bc8be' : '#FFFFFF',

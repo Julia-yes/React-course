@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { CreateForm } from './CreateForm';
 import '@testing-library/jest-dom/extend-expect';
 import { IPost } from 'interfaces';
@@ -16,12 +16,31 @@ describe('CreateForm', () => {
     expect(screen.getByText(/Work/i)).toBeInTheDocument();
   });
   it('should toggle isDate state when checkbox is clicked', () => {
-    const wrapper = shallow(<CreateForm callback={mockCallback} />);
-    const checkbox = wrapper.find('input[type="checkbox"]');
-    expect(wrapper.state('isDate')).toBe(false);
+    const form = shallow(<CreateForm callback={mockCallback} />);
+    const checkbox = form.find('input[type="checkbox"]');
+    expect(form.state('isDate')).toBe(false);
     checkbox.simulate('change');
-    expect(wrapper.state('isDate')).toBe(true);
+    expect(form.state('isDate')).toBe(true);
     checkbox.simulate('change');
-    expect(wrapper.state('isDate')).toBe(false);
+    expect(form.state('isDate')).toBe(false);
+  });
+
+  it('should appear message with error after click submit button', () => {
+    render(<CreateForm callback={mockCallback} />);
+    expect(screen.queryByText(/image/i)).not.toBeInTheDocument();
+    fireEvent.click(screen.getByText(/submit/i));
+    expect(screen.getByText(/image/i)).toBeInTheDocument();
+  });
+  it('should appear message with title error after click submit button', () => {
+    render(<CreateForm callback={mockCallback} />);
+    expect(screen.queryByText(/short/i)).not.toBeInTheDocument();
+    fireEvent.click(screen.getByText(/submit/i));
+    fireEvent.change(screen.getByLabelText(/title/i), {
+      target: {
+        value: 'hello',
+      },
+    });
+    fireEvent.click(screen.getByText(/submit/i));
+    expect(screen.queryByText(/short/i)).not.toBeInTheDocument();
   });
 });

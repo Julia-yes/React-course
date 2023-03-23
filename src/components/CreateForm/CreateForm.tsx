@@ -211,7 +211,7 @@ export class CreateForm extends React.Component<
         </div>
         <div className={styles.block}>
           <label>
-            <span className={styles.label}>Load foto:</span>
+            <span className={styles.label}>Load photo:</span>
             <label htmlFor='file' className={styles.fileButton}>
               Select
             </label>

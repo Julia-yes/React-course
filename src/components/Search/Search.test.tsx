@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Search } from './Search';
 import '@testing-library/jest-dom/extend-expect';
@@ -28,5 +28,16 @@ describe('Search', () => {
       currentTarget: { value: 'test' },
     });
     expect(search.state('searchValue')).toEqual('test');
+  });
+  it('updates searchValue after changing search in local storage', () => {
+    const callback = jest.fn();
+    const searchValue = 'apple';
+    render(<Search callback={callback} />);
+    const input = screen.getByPlaceholderText('search');
+    fireEvent.change(input, { target: { value: searchValue } });
+    expect(callback).toHaveBeenCalledWith(searchValue);
+    localStorage.setItem('search', searchValue);
+    render(<Search callback={callback} />);
+    expect((input as HTMLInputElement).value).toBe(searchValue);
   });
 });
