@@ -4,7 +4,6 @@ import styles from './CreateForm.module.scss';
 
 type Props = {
   callback(prop: IPost): void;
-  closeForm(): void;
 };
 
 export class CreateForm extends React.Component<
@@ -15,6 +14,7 @@ export class CreateForm extends React.Component<
     titleError: boolean;
     fileError: boolean;
     dateError: boolean;
+    descriptionError: boolean;
     saveData: boolean;
   }
 > {
@@ -34,6 +34,7 @@ export class CreateForm extends React.Component<
       titleError: false,
       fileError: false,
       dateError: false,
+      descriptionError: false,
       saveData: false,
     };
     this.category = React.createRef();
@@ -47,8 +48,8 @@ export class CreateForm extends React.Component<
     this.handleSubmit = this.handleSubmit.bind(this);
     this.deleteMessage = this.deleteMessage.bind(this);
     this.showMessage = this.showMessage.bind(this);
-    this.sendData = this.sendData.bind(this);
     this.clearForm = this.clearForm.bind(this);
+    this.sendData = this.sendData.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateForm = this.validateForm.bind(this);
     this.handleImageUpload = this.handleImageUpload.bind(this);
@@ -82,7 +83,6 @@ export class CreateForm extends React.Component<
     });
     setTimeout(() => {
       this.deleteMessage();
-      this.props.closeForm();
     }, 2000);
   }
 
@@ -102,13 +102,15 @@ export class CreateForm extends React.Component<
     });
   }
 
-  clearForm() {}
-
   saveData() {
-    if (!this.state.fileError && !this.state.titleError && !this.state.dateError) {
+    if (
+      !this.state.fileError &&
+      !this.state.titleError &&
+      !this.state.dateError &&
+      !this.state.descriptionError
+    ) {
       this.showMessage();
       this.sendData();
-      this.clearForm();
     }
   }
 
@@ -131,6 +133,15 @@ export class CreateForm extends React.Component<
         fileError: false,
       });
     }
+    if (this.description.current?.value && this.description.current?.value.length > 100) {
+      this.setState({
+        descriptionError: true,
+      });
+    } else {
+      this.setState({
+        descriptionError: false,
+      });
+    }
     if (
       (this.state.isDate && !this.date.current?.value) ||
       (this.state.isDate && this.date.current?.value && this.date.current?.value.length < 1)
@@ -145,10 +156,26 @@ export class CreateForm extends React.Component<
     }
   }
 
+  clearForm() {
+    this.setState({
+      file: undefined,
+      isDate: false,
+    });
+  }
+
   async handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     await this.validateForm();
     await this.saveData();
+    if (
+      !this.state.fileError &&
+      !this.state.titleError &&
+      !this.state.dateError &&
+      !this.state.descriptionError
+    ) {
+      await (e.target as HTMLFormElement).reset();
+      await this.clearForm();
+    }
   }
 
   render() {
@@ -175,10 +202,15 @@ export class CreateForm extends React.Component<
             <option value='Pets'>Pets</option>
           </select>
         </label>
-        <label>
-          <span className={styles.label}>Description:</span>
-          <textarea ref={this.description} />
-        </label>
+        <div className={styles.block}>
+          <label>
+            <span className={styles.label}>Description:</span>
+            <textarea ref={this.description} />
+          </label>
+          {this.state.descriptionError && (
+            <div className={styles.error}>the description is too long</div>
+          )}
+        </div>
         <div className={styles.block}>
           <label>
             <span className={styles.label}>Load foto:</span>
@@ -194,6 +226,7 @@ export class CreateForm extends React.Component<
               onChange={this.handleImageUpload}
             />
           </label>
+          {this.state.file && <span className={`material-icons ${styles.icon}`}>done</span>}
           {this.state.fileError && <div className={styles.error}>Select image</div>}
         </div>
         <label>

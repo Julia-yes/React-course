@@ -36,9 +36,7 @@ export class Posts extends React.Component<Props, { showForm: boolean; posts: IP
         <button className={styles.button} onClick={this.changeshowForm}>
           {this.state.showForm ? 'Cancel' : 'Create post'}
         </button>
-        {this.state.showForm && (
-          <CreateForm callback={this.setNewPost} closeForm={this.changeshowForm} />
-        )}
+        {this.state.showForm && <CreateForm callback={this.setNewPost} />}
         <div className={styles.postWrapper}>
           {this.state.posts?.length ? (
             this.state.posts.map((post) => (
