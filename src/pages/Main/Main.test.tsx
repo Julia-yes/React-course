@@ -9,6 +9,6 @@ Enzyme.configure({ adapter: new Adapter() });
 describe('Main', () => {
   it('render Main component', () => {
     const app = shallow(<Main />);
-    expect(app.state('searchValue')).toEqual('');
+    expect(app.state().searchValue).toEqual('');
   });
 });

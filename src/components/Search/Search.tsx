@@ -1,46 +1,35 @@
 import styles from './Search.module.scss';
-import React from 'react';
+import { useEffect, useState } from 'react';
 
-type Props = {
+type IProps = {
   callback(value: string): void;
-  props?: string;
 };
 
-export class Search extends React.Component<Props, { searchValue: string }> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { searchValue: '' };
-  }
+export const Search = ({ callback }: IProps) => {
+  const [searchValue, setSearchValue] = useState('');
 
-  changeSearchValue = (value: string) => {
-    this.props.callback(value);
-    this.setState({
-      searchValue: value,
-    });
+  const changeSearchValue = (value: string) => {
+    callback(value);
+    setSearchValue(value);
   };
 
-  componentDidMount() {
+  useEffect(() => {
     const lastSearch: string | null = localStorage.getItem('search');
-    this.setState({
-      searchValue: lastSearch ? lastSearch : '',
-    });
-  }
+    setSearchValue(lastSearch ? lastSearch : '');
+    return () => {
+      localStorage.setItem('search', searchValue);
+    };
+  }, [searchValue]);
 
-  componentWillUnmount() {
-    localStorage.setItem('search', this.state.searchValue);
-  }
-
-  render() {
-    return (
-      <input
-        type='text'
-        placeholder='search'
-        className={styles.input}
-        onChange={(e) => {
-          this.changeSearchValue(e.currentTarget.value);
-        }}
-        value={this.state.searchValue}
-      ></input>
-    );
-  }
-}
+  return (
+    <input
+      type='text'
+      placeholder='search'
+      className={styles.input}
+      onChange={(e) => {
+        changeSearchValue(e.currentTarget.value);
+      }}
+      value={searchValue}
+    ></input>
+  );
+};
