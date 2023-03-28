@@ -44,11 +44,10 @@ export class Posts extends React.Component<Props, { showForm: boolean; posts: IP
                 title={post.title}
                 description={post.description}
                 category={post.category}
-                isDate={post.isDate}
                 file={post.file}
                 color={post.color}
                 date={post.date}
-                key={post.title}
+                key={post.key}
               />
             ))
           ) : (

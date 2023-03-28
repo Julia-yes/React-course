@@ -9,12 +9,14 @@ type Props = {
 export class CreateForm extends React.Component<
   Props,
   {
-    isDate: boolean;
+    checkboxError: boolean;
     file: string | undefined;
     titleError: boolean;
     fileError: boolean;
     dateError: boolean;
+    colorError: boolean;
     descriptionError: boolean;
+    categoryError: boolean;
     saveData: boolean;
   }
 > {
@@ -23,23 +25,27 @@ export class CreateForm extends React.Component<
   private color1: React.RefObject<HTMLInputElement>;
   private color2: React.RefObject<HTMLInputElement>;
   private date: React.RefObject<HTMLInputElement>;
+  private checkbox: React.RefObject<HTMLInputElement>;
   private file: React.RefObject<HTMLInputElement>;
   private description: React.RefObject<HTMLTextAreaElement>;
   constructor(props: Props) {
     super(props);
     this.state = {
-      isDate: false,
       file: undefined,
       titleError: false,
       fileError: false,
       dateError: false,
+      colorError: false,
       descriptionError: false,
+      checkboxError: false,
+      categoryError: false,
       saveData: false,
     };
     this.category = React.createRef();
     this.title = React.createRef();
     this.description = React.createRef();
     this.date = React.createRef();
+    this.checkbox = React.createRef();
     this.file = React.createRef();
     this.color1 = React.createRef();
     this.color2 = React.createRef();
@@ -51,13 +57,6 @@ export class CreateForm extends React.Component<
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateForm = this.validateForm.bind(this);
     this.handleImageUpload = this.handleImageUpload.bind(this);
-    this.changeIsDate = this.changeIsDate.bind(this);
-  }
-
-  changeIsDate() {
-    this.setState({
-      isDate: !this.state.isDate,
-    });
   }
 
   handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,7 +88,6 @@ export class CreateForm extends React.Component<
       title: this.title.current?.value,
       category: this.category.current?.value,
       description: this.description.current?.value,
-      isDate: this.state.isDate,
       file: this.state.file,
       color: this.color1.current?.checked
         ? this.color1.current.value
@@ -97,6 +95,7 @@ export class CreateForm extends React.Component<
         ? this.color2.current.value
         : undefined,
       date: this.date.current?.value ? this.date.current?.value : undefined,
+      key: Date.now(),
     });
   }
 
@@ -105,7 +104,10 @@ export class CreateForm extends React.Component<
       !this.state.fileError &&
       !this.state.titleError &&
       !this.state.dateError &&
-      !this.state.descriptionError
+      !this.state.descriptionError &&
+      !this.state.categoryError &&
+      !this.state.checkboxError &&
+      !this.state.colorError
     ) {
       this.showMessage();
       this.sendData();
@@ -131,7 +133,7 @@ export class CreateForm extends React.Component<
         fileError: false,
       });
     }
-    if (this.description.current?.value && this.description.current?.value.length > 100) {
+    if (!this.description.current?.value) {
       this.setState({
         descriptionError: true,
       });
@@ -140,10 +142,25 @@ export class CreateForm extends React.Component<
         descriptionError: false,
       });
     }
-    if (
-      (this.state.isDate && !this.date.current?.value) ||
-      (this.state.isDate && this.date.current?.value && this.date.current?.value.length < 1)
-    ) {
+    if (!this.category.current?.value) {
+      this.setState({
+        categoryError: true,
+      });
+    } else {
+      this.setState({
+        categoryError: false,
+      });
+    }
+    if (!this.color1.current?.checked && !this.color2.current?.checked) {
+      this.setState({
+        colorError: true,
+      });
+    } else {
+      this.setState({
+        colorError: false,
+      });
+    }
+    if (!this.date.current?.value) {
       this.setState({
         dateError: true,
       });
@@ -152,12 +169,20 @@ export class CreateForm extends React.Component<
         dateError: false,
       });
     }
+    if (!this.checkbox.current?.checked) {
+      this.setState({
+        checkboxError: true,
+      });
+    } else {
+      this.setState({
+        checkboxError: false,
+      });
+    }
   }
 
   clearForm() {
     this.setState({
       file: undefined,
-      isDate: false,
     });
   }
 
@@ -169,7 +194,10 @@ export class CreateForm extends React.Component<
       !this.state.fileError &&
       !this.state.titleError &&
       !this.state.dateError &&
-      !this.state.descriptionError
+      !this.state.descriptionError &&
+      !this.state.categoryError &&
+      !this.state.checkboxError &&
+      !this.state.colorError
     ) {
       await (e.target as HTMLFormElement).reset();
       await this.clearForm();
@@ -186,28 +214,29 @@ export class CreateForm extends React.Component<
           </label>
           {this.state.titleError && <div className={styles.error}>The title is too short</div>}
         </div>
-        <label>
-          <span className={styles.label}>Post category:</span>
-          <select ref={this.category}>
-            <option value='Work' defaultChecked>
-              Work
-            </option>
-            <option value='Hobby'>Hobby</option>
-            <option value='Vacation'>Vacation</option>
-            <option value='Life'>Life</option>
-            <option value='Family'>Family</option>
-            <option value='Children'>Children</option>
-            <option value='Pets'>Pets</option>
-          </select>
-        </label>
+        <div className={styles.block}>
+          <label>
+            <span className={styles.label}>Post category:</span>
+            <select ref={this.category}>
+              <option value=''>--Choose category--</option>
+              <option value='Work'>Work</option>
+              <option value='Hobby'>Hobby</option>
+              <option value='Vacation'>Vacation</option>
+              <option value='Life'>Life</option>
+              <option value='Family'>Family</option>
+              <option value='Children'>Children</option>
+              <option value='Pets'>Pets</option>
+            </select>
+          </label>
+          {this.state.categoryError && <div className={styles.error}>Choose category</div>}
+        </div>
+
         <div className={styles.block}>
           <label>
             <span className={styles.label}>Description:</span>
             <textarea ref={this.description} />
           </label>
-          {this.state.descriptionError && (
-            <div className={styles.error}>the description is too long</div>
-          )}
+          {this.state.descriptionError && <div className={styles.error}>Add description</div>}
         </div>
         <div className={styles.block}>
           <label>
@@ -227,32 +256,36 @@ export class CreateForm extends React.Component<
           {this.state.file && <span className={`material-icons ${styles.icon}`}>done</span>}
           {this.state.fileError && <div className={styles.error}>Select image</div>}
         </div>
-        <label>
-          <span className={styles.label}>Show date of the photo:</span>
-          <input type='checkbox' checked={this.state.isDate} onChange={this.changeIsDate} />
-        </label>
-        {this.state.isDate && (
-          <div className={styles.block}>
-            <label>
-              <span className={styles.label}>Photo&apos;s date:</span>
-              <input type='date' ref={this.date} />
-            </label>
-            {this.state.dateError && <div className={styles.error}>Select date</div>}
-          </div>
-        )}
-        <label>
-          <span className={styles.label}>Background color</span>
-          <div className={styles.colorWrapper}>
-            <label htmlFor='Turquoise' className={styles.colorLabel}>
-              Turquoise
-            </label>
-            <input name='color' value='Turquoise' id='Turquoise' type='radio' ref={this.color1} />
-            <label htmlFor='Salmon' className={styles.colorLabel}>
-              Salmon
-            </label>
-            <input name='color' value='Salmon' id='Salmon' type='radio' ref={this.color2} />
-          </div>
-        </label>
+        <div className={styles.block}>
+          <label>
+            <span className={styles.label}>Photo&apos;s date:</span>
+            <input type='date' ref={this.date} />
+          </label>
+          {this.state.dateError && <div className={styles.error}>Select date</div>}
+        </div>
+        <div className={styles.block}>
+          <label>
+            <span className={styles.label}>Background color</span>
+            <div className={styles.colorWrapper}>
+              <label htmlFor='Turquoise' className={styles.colorLabel}>
+                Turquoise
+              </label>
+              <input name='color' value='Turquoise' id='Turquoise' type='radio' ref={this.color1} />
+              <label htmlFor='Salmon' className={styles.colorLabel}>
+                Salmon
+              </label>
+              <input name='color' value='Salmon' id='Salmon' type='radio' ref={this.color2} />
+            </div>
+          </label>
+          {this.state.colorError && <div className={styles.error}>You have to choose a color</div>}
+        </div>
+        <div className={styles.block}>
+          <label>
+            <span className={styles.label}>I have read and agree to the license agreement:</span>
+            <input type='checkbox' ref={this.checkbox} />
+          </label>
+          {this.state.checkboxError && <div className={styles.error}>Mandatory condition</div>}
+        </div>
         <input type='submit' value='Submit' className={styles.submit} />
         {this.state.saveData && <div className={styles.message}>A new post has been created</div>}
       </form>

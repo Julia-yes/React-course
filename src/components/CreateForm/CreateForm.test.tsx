@@ -15,16 +15,6 @@ describe('CreateForm', () => {
     render(<CreateForm callback={mockCallback} />);
     expect(screen.getByText(/Work/i)).toBeInTheDocument();
   });
-  it('should toggle isDate state when checkbox is clicked', () => {
-    const form = shallow(<CreateForm callback={mockCallback} />);
-    const checkbox = form.find('input[type="checkbox"]');
-    expect(form.state('isDate')).toBe(false);
-    checkbox.simulate('change');
-    expect(form.state('isDate')).toBe(true);
-    checkbox.simulate('change');
-    expect(form.state('isDate')).toBe(false);
-  });
-
   it('should appear message with error after click submit button', () => {
     render(<CreateForm callback={mockCallback} />);
     expect(screen.queryByText(/image/i)).not.toBeInTheDocument();
