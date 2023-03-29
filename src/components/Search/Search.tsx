@@ -6,7 +6,7 @@ type IProps = {
 };
 
 export const Search = ({ callback }: IProps) => {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(localStorage.getItem('search'));
 
   const changeSearchValue = (value: string) => {
     callback(value);
@@ -14,10 +14,8 @@ export const Search = ({ callback }: IProps) => {
   };
 
   useEffect(() => {
-    const lastSearch: string | null = localStorage.getItem('search');
-    setSearchValue(lastSearch ? lastSearch : '');
     return () => {
-      localStorage.setItem('search', searchValue);
+      localStorage.setItem('search', searchValue ? searchValue : '');
     };
   }, [searchValue]);
 
@@ -29,7 +27,7 @@ export const Search = ({ callback }: IProps) => {
       onChange={(e) => {
         changeSearchValue(e.currentTarget.value);
       }}
-      value={searchValue}
+      value={searchValue ? searchValue : ''}
     ></input>
   );
 };
