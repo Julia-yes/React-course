@@ -1,7 +1,7 @@
 import { IPost } from 'interfaces';
 import styles from './Post.module.scss';
 
-export const Post = ({ title, category, description, isDate, file, color, date }: IPost) => {
+export const Post = ({ title, category, description, file, color, date }: IPost) => {
   return (
     <section
       className={styles.wrapper}
@@ -17,7 +17,7 @@ export const Post = ({ title, category, description, isDate, file, color, date }
       {description && description?.length > 1 && (
         <div className={styles.description}>{description}</div>
       )}
-      {isDate && <div className={styles.date}>{date}</div>}
+      <div className={styles.date}>{date}</div>
     </section>
   );
 };

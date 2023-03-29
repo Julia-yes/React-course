@@ -32,11 +32,10 @@ export const Posts = () => {
               title={post.title}
               description={post.description}
               category={post.category}
-              isDate={post.isDate}
               file={post.file}
               color={post.color}
               date={post.date}
-              key={post.title}
+              key={post.key}
             />
           ))
         ) : (
