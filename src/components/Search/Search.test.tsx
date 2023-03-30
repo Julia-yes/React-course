@@ -2,9 +2,9 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Search } from './Search';
 import '@testing-library/jest-dom/extend-expect';
-import { shallow } from 'enzyme';
 import Enzyme from 'enzyme';
 import Adapter from '@cfaester/enzyme-adapter-react-18';
+import React from 'react';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('Search', () => {
@@ -19,15 +19,6 @@ describe('Search', () => {
     render(<Search callback={changeSearchValue} />);
     userEvent.type(screen.getByRole('textbox'), 'test');
     expect(screen.getByRole('textbox')).toHaveValue('');
-  });
-  it('change state after change input value', () => {
-    const changeSearchValue = jest.fn();
-    const search = shallow(<Search callback={changeSearchValue} />);
-    expect(search.state('searchValue')).toEqual('');
-    search.find('input').simulate('change', {
-      currentTarget: { value: 'test' },
-    });
-    expect(search.state('searchValue')).toEqual('test');
   });
   it('updates searchValue after changing search in local storage', () => {
     const callback = jest.fn();

@@ -7,8 +7,7 @@ export const Post = ({ title, category, description, file, color, date }: IPost)
       className={styles.wrapper}
       data-testid='sectionTest'
       style={{
-        backgroundColor:
-          color === 'Salmon' ? '#fb8372' : color === 'Turquoise' ? '#6bc8be' : '#FFFFFF',
+        backgroundColor: color === 'Salmon' ? '#fb8372' : '#6bc8be',
       }}
     >
       <h2 className={styles.title}>{title}</h2>

@@ -137,13 +137,15 @@ export const CreateForm = ({ callback }: IProps) => {
           <input
             id='file'
             type='file'
+            name='file'
             accept='image/png, image/jpeg'
+            data-testid='sectionTest'
             style={{ display: 'none' }}
             onChange={handleImageUpload}
           />
         </label>
         {file && <span className={`material-icons ${styles.icon}`}>done</span>}
-        {fileError && <div className={styles.error}>Add foto</div>}
+        {fileError && <div className={styles.error}>Add photo</div>}
       </div>
       <div className={styles.block}>
         <label>

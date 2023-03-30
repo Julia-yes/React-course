@@ -1,14 +1,16 @@
 import { Main } from './Main';
 import '@testing-library/jest-dom/extend-expect';
-import { shallow } from 'enzyme';
-import Enzyme from 'enzyme';
-import Adapter from '@cfaester/enzyme-adapter-react-18';
+import { render, screen } from '@testing-library/react';
+import { Users } from 'data/data';
 
-Enzyme.configure({ adapter: new Adapter() });
-
-// describe('Main', () => {
-//   it('render Main component', () => {
-//     const app = shallow(<Main />);
-//     expect(app.state().searchValue).toEqual('');
-//   });
-// });
+describe('Main', () => {
+  it('render Main component', () => {
+    render(<Main />);
+    expect(screen.getByText(/Friend/i)).toBeInTheDocument();
+  });
+  it('displays all Users when searchValue is empty', () => {
+    render(<Main />);
+    const imgs = screen.getAllByRole('img');
+    expect(imgs.length).toBe(Users.length);
+  });
+});
