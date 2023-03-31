@@ -19,7 +19,7 @@ export const Users: IUser[] = [
   },
   {
     name: 'Noy Sergio',
-    img: 'https://yt3.ggpht.com/a/AATXAJz_1rU2Tf3KCJoPZfd7ibjAeyqR9UIHEWB8cQ=s900-c-k-c0xffffffff-no-rj-mo',
+    img: 'https://flyclipart.com/thumbs/med-boukrima-specialist-webmaster-php-e-commerce-web-developer-coder-avatar-1054388.png',
     city: 'New York',
     likes: 1,
     views: 10,
@@ -51,7 +51,7 @@ export const Users: IUser[] = [
   },
   {
     name: 'Noy Sergio',
-    img: 'https://yt3.ggpht.com/a/AATXAJz_1rU2Tf3KCJoPZfd7ibjAeyqR9UIHEWB8cQ=s900-c-k-c0xffffffff-no-rj-mo',
+    img: 'https://flyclipart.com/thumbs/med-boukrima-specialist-webmaster-php-e-commerce-web-developer-coder-avatar-1054388.png',
     city: 'New York',
     likes: 1,
     views: 10,
@@ -83,7 +83,7 @@ export const Users: IUser[] = [
   },
   {
     name: 'Noy Sergio',
-    img: 'https://yt3.ggpht.com/a/AATXAJz_1rU2Tf3KCJoPZfd7ibjAeyqR9UIHEWB8cQ=s900-c-k-c0xffffffff-no-rj-mo',
+    img: 'https://flyclipart.com/thumbs/med-boukrima-specialist-webmaster-php-e-commerce-web-developer-coder-avatar-1054388.png',
     city: 'New York',
     likes: 1,
     views: 10,
