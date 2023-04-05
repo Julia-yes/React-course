@@ -1,23 +1,26 @@
 @import '../../styles/variables.scss';
 
 .wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.card {
   border: 2px solid $turquoise-dark;
   padding: 10px;
   border-radius: 15px;
-  width: 300px;
   background-color: $turquoise;
-  cursor: pointer;
-  transition: background-color .3s;
-
-   &:hover {
-    background-color: $salmon;
-   }
+  width: 500px;
 }
 
 .cardTop {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: flex-start;
 }
 
 .userInfo {
@@ -27,8 +30,7 @@
 }
 
 .avatar {
-  width: 70px;
-  min-height: 70px;
+  width: 200px;
   border-radius: 50%;
   border: 3px solid $turquoise-dark;
   object-fit: cover;
@@ -39,6 +41,25 @@
   font-size: 22px;
 }
 
-.status {
+.info {
   color: white;
+}
+
+.button {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+.icon {
+  color: red;
+
+  &:hover {
+    transform: scale(1.2);
+  }
 }

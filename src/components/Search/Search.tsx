@@ -20,14 +20,17 @@ export const Search = ({ callback }: IProps) => {
   }, [searchValue]);
 
   return (
-    <input
-      type='text'
-      placeholder='search'
-      className={styles.input}
-      onChange={(e) => {
-        changeSearchValue(e.currentTarget.value);
-      }}
-      value={searchValue ? searchValue : ''}
-    ></input>
+    <aside>
+      <input
+        type='text'
+        placeholder='search'
+        className={styles.input}
+        onChange={(e) => {
+          changeSearchValue(e.currentTarget.value);
+        }}
+        value={searchValue ? searchValue : ''}
+      ></input>
+      <button>Submit</button>
+    </aside>
   );
 };

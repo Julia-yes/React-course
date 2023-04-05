@@ -7,6 +7,29 @@ export interface IUser {
   id: number;
 }
 
+export interface IData {
+  info: IResponseInfo;
+  results: [ICharacter];
+}
+
+export interface IResponseInfo {
+  count: number;
+  next: string | null;
+  pages: number;
+  prev: string | null;
+}
+
+export interface ICharacter {
+  name: string;
+  status: string;
+  gender: string;
+  image: string;
+  id: number;
+  type: string;
+  created: string;
+  species: string;
+}
+
 export interface IPost {
   title: string | undefined;
   category: string | undefined;

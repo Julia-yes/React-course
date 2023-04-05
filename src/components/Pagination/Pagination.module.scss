@@ -1,0 +1,32 @@
+@import '../../styles/variables.scss';
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-top: 10px;
+  justify-content: center;
+  gap: 10px;
+}
+
+.button {
+  padding: 10px;
+  border-color: $salmon;
+  border-radius: 15px;
+  color: white;
+  background-color: $turquoise;
+  transition: background-color 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $turquoise-dark;
+  }
+}
+
+.buttonDisable {
+  cursor: default;
+  background-color: gray;
+  &:hover {
+    background-color: gray;
+  }
+}
