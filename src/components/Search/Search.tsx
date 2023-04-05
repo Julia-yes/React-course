@@ -1,5 +1,5 @@
 import styles from './Search.module.scss';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 type IProps = {
   callback(value: string): void;
@@ -8,29 +8,32 @@ type IProps = {
 export const Search = ({ callback }: IProps) => {
   const [searchValue, setSearchValue] = useState(localStorage.getItem('search'));
 
-  const changeSearchValue = (value: string) => {
-    callback(value);
-    setSearchValue(value);
+  const onKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.code === 'Enter') {
+      callback(searchValue ? searchValue : '');
+    }
   };
-
-  useEffect(() => {
-    return () => {
-      localStorage.setItem('search', searchValue ? searchValue : '');
-    };
-  }, [searchValue]);
 
   return (
     <aside>
-      <input
-        type='text'
-        placeholder='search'
-        className={styles.input}
-        onChange={(e) => {
-          changeSearchValue(e.currentTarget.value);
-        }}
-        value={searchValue ? searchValue : ''}
-      ></input>
-      <button>Submit</button>
+      <form onKeyDown={(e) => onKeyDown(e)}>
+        <input
+          type='text'
+          placeholder='search'
+          className={styles.input}
+          onChange={(e) => {
+            setSearchValue(e.currentTarget.value);
+          }}
+          value={searchValue ? searchValue : ''}
+        ></input>
+        <button
+          type='button'
+          className={styles.button}
+          onClick={(e) => callback(searchValue ? searchValue : '')}
+        >
+          Submit
+        </button>
+      </form>
     </aside>
   );
 };

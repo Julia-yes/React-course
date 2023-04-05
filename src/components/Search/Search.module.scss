@@ -7,3 +7,18 @@
   padding: 10px;
   outline: none;
 }
+
+.button {
+  background-color: $turquoise;
+  color: white;
+  border-color: $salmon;
+  padding: 10px;
+  border-radius: 15px;
+  transition: background-color 0.3s;
+  margin-left: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $turquoise-dark;
+  }
+}
