@@ -1,30 +1,23 @@
 import { CreateForm } from 'components/CreateForm/CreateForm';
 import { Post } from 'components/Post/Post';
-import { IPost } from 'interfaces';
 import styles from './Posts.module.scss';
-import { useCallback, useState } from 'react';
+import { useContext, useState } from 'react';
+import { DataContext } from 'context/Context';
 
 export const Posts = () => {
   const [showForm, setShowForm] = useState(false);
-  const [posts, setPosts] = useState<IPost[] | null>(null);
+  const { posts } = useContext(DataContext);
 
   const changeshowForm = () => {
     setShowForm(!showForm);
   };
-
-  const setNewPost = useCallback(
-    (post: IPost) => {
-      posts ? setPosts([...posts, post]) : setPosts([post]);
-    },
-    [posts]
-  );
 
   return (
     <section className={styles.wrapper}>
       <button className={styles.button} onClick={changeshowForm}>
         {showForm ? 'Cancel' : 'Create post'}
       </button>
-      {showForm && <CreateForm callback={setNewPost} />}
+      {showForm && <CreateForm />}
       <div className={styles.postWrapper}>
         {posts?.length ? (
           posts.map((post) => (

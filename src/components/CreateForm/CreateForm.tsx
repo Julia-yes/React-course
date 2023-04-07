@@ -1,11 +1,7 @@
-import { IPost } from 'interfaces';
 import styles from './CreateForm.module.scss';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
-
-type IProps = {
-  callback(prop: IPost): void;
-};
+import { useContext, useState } from 'react';
+import { DataContext } from 'context/Context';
 
 type FormValues = {
   title: string;
@@ -16,7 +12,8 @@ type FormValues = {
   license: boolean;
 };
 
-export const CreateForm = ({ callback }: IProps) => {
+export const CreateForm = () => {
+  const { setNewPost } = useContext(DataContext);
   const [file, setFile] = useState<string | null>(null);
   const [showMessage, setShowMessage] = useState(false);
   const [fileError, setFileError] = useState(false);
@@ -40,7 +37,7 @@ export const CreateForm = ({ callback }: IProps) => {
   };
 
   const sendData = (data: FormValues) => {
-    callback({
+    setNewPost({
       title: data.title,
       category: data.category,
       description: data.description,

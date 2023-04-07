@@ -11,7 +11,6 @@ import { LoadCharacter } from 'context/LoadSource';
 
 export const Main = () => {
   const { loading, data, character, setNewCharacter, setNewLoading } = useContext(DataContext);
-
   const [modal, setModal] = useState(false);
   const [overLay, setOverLay] = useState(false);
 
@@ -54,7 +53,7 @@ export const Main = () => {
             <div className={styles.error}>No information. Change string for searching</div>
           )}
         </div>
-        {data ? <Pagination /> : null}
+        {data ? <Pagination pages={data.info.pages} /> : null}
       </section>
       {modal && (
         <Modal

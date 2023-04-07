@@ -3,11 +3,13 @@ import styles from './Pagination.module.scss';
 import { DataContext } from 'context/Context';
 import { LoadSource } from 'context/LoadSource';
 
-export const Pagination = () => {
-  const { data, activePage, setNewActivePage, setNewLoading, setNewData, searchValue } =
-    useContext(DataContext);
+type IProps = {
+  pages: number | null;
+};
 
-  const countOfPages = data?.info.pages ? data?.info.pages : 0;
+export const Pagination = ({ pages }: IProps) => {
+  const { activePage, setNewActivePage, setNewLoading, setNewData, searchValue } =
+    useContext(DataContext);
 
   const changePage = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const newValue = e.currentTarget.innerHTML === 'Prev' ? activePage - 1 : activePage + 1;
@@ -29,13 +31,13 @@ export const Pagination = () => {
         Prev
       </button>
       <div className={styles.info} data-testid='sectionTest'>
-        Page {activePage} of {countOfPages}
+        Page {activePage} of {pages}
       </div>
       <button
         className={
-          activePage === countOfPages ? `${styles.button} ${styles.buttonDisable}` : styles.button
+          activePage === pages ? `${styles.button} ${styles.buttonDisable}` : styles.button
         }
-        disabled={activePage === countOfPages ? true : false}
+        disabled={activePage === pages ? true : false}
         onClick={async (e) => {
           changePage(e);
         }}

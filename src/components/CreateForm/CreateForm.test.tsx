@@ -7,16 +7,12 @@ import Adapter from '@cfaester/enzyme-adapter-react-18';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('CreateForm', () => {
-  const mockCallback = jest.fn();
-  beforeEach(() => {
-    mockCallback.mockReset();
-  });
   it('render CreateForm component', () => {
-    render(<CreateForm callback={mockCallback} />);
+    render(<CreateForm />);
     expect(screen.getByText(/Work/i)).toBeInTheDocument();
   });
   it('should appear message with error after click submit button', async () => {
-    render(<CreateForm callback={mockCallback} />);
+    render(<CreateForm />);
     expect(screen.queryByText(/add/i)).not.toBeInTheDocument();
     fireEvent.click(screen.getByText(/submit/i));
     await waitFor(() => {
@@ -24,7 +20,7 @@ describe('CreateForm', () => {
     });
   });
   it('error message must diaspear after contein the field', async () => {
-    render(<CreateForm callback={mockCallback} />);
+    render(<CreateForm />);
     expect(screen.queryByText(/short/i)).not.toBeInTheDocument();
     fireEvent.click(screen.getByText(/submit/i));
     fireEvent.change(screen.getByLabelText(/title/i), {
@@ -38,14 +34,11 @@ describe('CreateForm', () => {
     });
   });
   it('should show error message when file is not selected', async () => {
-    render(<CreateForm callback={mockCallback} />);
+    render(<CreateForm />);
     const submitButton = screen.getByRole('button', { name: /submit/i });
     fireEvent.click(submitButton);
     await waitFor(() => {
       expect(screen.getByText(/add photo/i)).toBeInTheDocument();
-    });
-    await waitFor(() => {
-      expect(mockCallback).not.toHaveBeenCalled();
     });
   });
   // it('should call callback if form without errors', async () => {

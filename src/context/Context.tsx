@@ -1,4 +1,4 @@
-import { ICharacter, IData } from 'interfaces';
+import { ICharacter, IData, IPost } from 'interfaces';
 import { createContext, memo, PropsWithChildren, useEffect, useState } from 'react';
 import { LoadSource } from './LoadSource';
 
@@ -13,6 +13,8 @@ interface IDataContext {
   setNewCharacter(newData: ICharacter | null): void;
   activePage: number;
   setNewActivePage(page: number): void;
+  posts: IPost[] | null;
+  setNewPost(post: IPost): void;
 }
 
 export const DataContext = createContext<IDataContext>({
@@ -26,6 +28,8 @@ export const DataContext = createContext<IDataContext>({
   setNewCharacter: () => {},
   activePage: 1,
   setNewActivePage: () => {},
+  posts: null,
+  setNewPost: () => {},
 });
 
 export const DataProvider = memo(({ children }: PropsWithChildren) => {
@@ -52,6 +56,11 @@ export const DataProvider = memo(({ children }: PropsWithChildren) => {
   const [activePage, setPage] = useState(1);
   const setNewActivePage = async (value: number) => {
     setPage(value);
+  };
+
+  const [posts, setPosts] = useState<IPost[] | null>(null);
+  const setNewPost = async (post: IPost) => {
+    posts ? setPosts([...posts, post]) : setPosts([post]);
   };
 
   useEffect(() => {
@@ -82,6 +91,8 @@ export const DataProvider = memo(({ children }: PropsWithChildren) => {
         setNewCharacter,
         activePage,
         setNewActivePage,
+        posts,
+        setNewPost,
       }}
     >
       {children}
