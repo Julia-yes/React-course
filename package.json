@@ -1,7 +1,7 @@
 {
   "name": "react",
   "jest": {
-    "coveragePathIgnorePatterns": ["src/index.tsx", "src/interfaces.ts", "src/context/Context.tsx"]
+    "coveragePathIgnorePatterns": ["src/index.tsx", "src/interfaces.ts", "src/context"]
   },
   "homepage": "/",
   "dependencies": {

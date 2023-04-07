@@ -20,7 +20,6 @@ describe('Search', () => {
   });
 
   const setNewValue = jest.fn();
-
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
@@ -32,13 +31,10 @@ describe('Search', () => {
         <Search />
       </DataContext.Provider>
     );
-
     const input = screen.getByPlaceholderText('search');
     const button = screen.getByRole('button', { name: 'Submit' });
-
     fireEvent.change(input, { target: { value: 'Morty' } });
     fireEvent.click(button);
-
     expect(localStorage.getItem('search')).toBe('Morty');
   });
 
@@ -48,15 +44,26 @@ describe('Search', () => {
         <Search />
       </DataContext.Provider>
     );
-
     const input = screen.getByPlaceholderText('search');
     const button = screen.getByRole('button', { name: 'Submit' });
-
     fireEvent.change(input, { target: { value: 'Morty' } });
     fireEvent.click(button);
-
     expect(setNewValue).toHaveBeenCalled();
     expect(setNewValue).toHaveBeenCalledWith('Morty');
+  });
+
+  it('should set empty value in context when submitting the form', () => {
+    render(
+      <DataContext.Provider value={{ setNewValue }}>
+        <Search />
+      </DataContext.Provider>
+    );
+    const input = screen.getByPlaceholderText('search');
+    const button = screen.getByRole('button', { name: 'Submit' });
+    fireEvent.change(input, { target: { value: null } });
+    fireEvent.click(button);
+    expect(setNewValue).toHaveBeenCalled();
+    expect(setNewValue).toHaveBeenCalledWith('');
   });
 
   it('should set the search value in context when press Enter', () => {
@@ -65,11 +72,33 @@ describe('Search', () => {
         <Search />
       </DataContext.Provider>
     );
-
     const input = screen.getByRole('textbox');
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
-
     expect(setNewValue).toHaveBeenCalled();
+  });
+
+  it('should not set the search value in context when press Enter', () => {
+    render(
+      <DataContext.Provider value={{ setNewValue }}>
+        <Search />
+      </DataContext.Provider>
+    );
+    const input = screen.getByRole('textbox');
+    fireEvent.keyDown(input, { key: 'Esc', code: 'Esc' });
+    expect(setNewValue).not.toHaveBeenCalled();
+  });
+
+  it('should set the search value like initialState in context when press Enter', () => {
+    const myInitialState = 'My Initial State';
+    React.useState = jest.fn().mockReturnValue([myInitialState, {}]);
+    render(
+      <DataContext.Provider value={{ setNewValue }}>
+        <Search />
+      </DataContext.Provider>
+    );
+    const input = screen.getByRole('textbox');
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
+    expect(setNewValue).toHaveBeenCalledWith(myInitialState);
   });
 
   it('must change state after change input value', () => {

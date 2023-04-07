@@ -41,33 +41,4 @@ describe('CreateForm', () => {
       expect(screen.getByText(/add photo/i)).toBeInTheDocument();
     });
   });
-  // it('should call callback if form without errors', async () => {
-  //   render(<CreateForm callback={mockCallback} />);
-  //   const title = screen.getByLabelText(/title/i);
-  //   const category = screen.getByRole('combobox');
-  //   const description = screen.getByLabelText(/descri/i);
-  //   const photo = screen.getByLabelText(/load/i) as HTMLInputElement;
-  //   const date = screen.getByLabelText(/date/i);
-  //   const color = screen.getByLabelText(/Turquoise/i);
-  //   const license = screen.getByRole('checkbox');
-  //   const submitButton = screen.getByRole('button', { name: /submit/i });
-  //   fireEvent.click(license);
-  //   fireEvent.click(color);
-  //   fireEvent.change(title, { target: { value: 'test' } });
-  //   fireEvent.change(description, { target: { value: 'Work' } });
-  //   fireEvent.change(category, { target: { value: 'Work' } });
-  //   fireEvent.change(date, { target: { value: '2023' } });
-  //   expect(photo).toBeTruthy();
-  //   const readFileMock = jest
-  //   .spyOn(URL.createObjectURL, 'default')
-  //   .mockResolvedValue('image content');
-  //   const file = new File([new ArrayBuffer(1)], 'file.jpg');
-  //   await waitFor(() => expect(photo.files).toHaveLength(0));
-  //   fireEvent.change(photo, { target: { files: [file] } });
-  //   await waitFor(() => expect(photo.files).toHaveLength(1));
-  //   fireEvent.click(submitButton);
-  //   await waitFor(() => {
-  //     expect(mockCallback).not.toHaveBeenCalled();
-  //   });
-  // });
 });

@@ -3,8 +3,19 @@ import { Posts } from './Posts';
 import '@testing-library/jest-dom/extend-expect';
 import Enzyme from 'enzyme';
 import Adapter from '@cfaester/enzyme-adapter-react-18';
+import { DataContext } from 'context/Context';
 
 Enzyme.configure({ adapter: new Adapter() });
+
+const post = {
+  title: 'title',
+  description: 'description',
+  category: 'category',
+  file: 'file',
+  color: 'red',
+  date: '2023',
+  key: '678',
+};
 
 describe('Posts', () => {
   it('render Posts component', () => {
@@ -19,5 +30,15 @@ describe('Posts', () => {
     fireEvent.click(button);
     expect(screen.getByText(/Cancel/i)).toBeInTheDocument();
     expect(screen.queryByText(/Create/i)).not.toBeInTheDocument();
+  });
+  it('load count of post like count of posts in context', () => {
+    const posts = [post];
+    render(
+      <DataContext.Provider value={{ posts }}>
+        <Posts />
+      </DataContext.Provider>
+    );
+    const postsOnPage = screen.getAllByText(/title/i);
+    expect(postsOnPage).toHaveLength(1);
   });
 });

@@ -43,31 +43,3 @@ describe('LoadSource', () => {
     await expect(LoadSource(null)).rejects.toThrow(error);
   });
 });
-
-// describe('LoadCharacter', () => {
-//   it('should return the correct data when given a search value and a page number', async () => {
-//     const id = 1;
-//     const result = await LoadCharacter(id);
-//     expect(result).toBeDefined()
-//   });
-
-//   // it('should throw an error when the API call fails', async () => {
-//   //   const error = new Error('Could not load the data from the resourse');
-//   //   jest.spyOn(window, 'fetch').mockImplementation(() => Promise.resolve({ ok: false }));
-
-//   //   await expect(LoadCharacter(null)).rejects.toThrow(error);
-//   // });
-// });
-// describe('LoadCharacter', () => {
-//   test('should load character data given a valid character id', async () => {
-//     const id =1;
-//     const data = await LoadCharacter(id);
-//     expect(data).toBeDefined();
-//     expect(data.id).toBe(1);
-//     expect(data.name).toBe('Rick Sanchez');
-//   });
-
-//   test('should throw an error when given an invalid character id', async () => {
-//     await expect(LoadCharacter(0)).rejects.toThrow('Could not load the data from the resourse');
-//   });
-//});

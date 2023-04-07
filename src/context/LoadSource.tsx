@@ -19,7 +19,7 @@ export const LoadCharacter = async (id: number) => {
   const apiUrl = `https://rickandmortyapi.com/api/character/${id}`;
 
   const response = await fetch(apiUrl);
-  //if (!(await response).ok) throw new Error('Could not load the data from the resourse');
+  if (!(await response).ok) throw new Error('Could not load the data from the resourse');
   const data = await response.json();
   return data;
 };

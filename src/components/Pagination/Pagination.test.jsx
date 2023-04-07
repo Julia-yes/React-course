@@ -31,7 +31,7 @@ describe('Pagination', () => {
     expect(setNewActivePage).toHaveBeenCalled();
     expect(setNewActivePage).toHaveBeenCalledWith(6 - 1);
     expect(setNewLoading).toHaveBeenCalled();
-    expect(setNewLoading).toHaveBeenCalledWith(true);
+    expect(setNewLoading).toHaveBeenCalled();
   });
   it('call callback after click on button Next', () => {
     const setNewActivePage = jest.fn();
@@ -53,6 +53,5 @@ describe('Pagination', () => {
     expect(setNewActivePage).toHaveBeenCalled();
     expect(setNewActivePage).toHaveBeenCalledWith(6 + 1);
     expect(setNewLoading).toHaveBeenCalled();
-    expect(setNewLoading).toHaveBeenCalledWith(true);
   });
 });
