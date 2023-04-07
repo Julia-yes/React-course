@@ -132,7 +132,6 @@ export const Main = () => {
           status={character?.status}
           gender={character?.gender}
           type={character?.type}
-          created={character?.created}
           species={character?.species}
           callback={closeModal}
         />

@@ -26,7 +26,6 @@ export interface ICharacter {
   image: string;
   id: number;
   type: string;
-  created: string;
   species: string;
 }
 

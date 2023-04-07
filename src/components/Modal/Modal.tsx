@@ -7,23 +7,11 @@ type IProps = {
   gender: string | undefined;
   image: string | undefined;
   type: string | undefined;
-  created: string | undefined;
   species: string | undefined;
   callback(): void;
 };
 
-export const Modal = ({
-  name,
-  image,
-  status,
-  gender,
-  type,
-  created,
-  species,
-  callback,
-}: IProps) => {
-  const date = created ? new Date(Date.parse(created)) : 'null';
-
+export const Modal = ({ name, image, status, gender, type, species, callback }: IProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
@@ -35,7 +23,6 @@ export const Modal = ({
               <div className={styles.info}>Gender: {gender}</div>
               <div className={styles.info}>Type: {type}</div>
               <div className={styles.info}>Species: {species}</div>
-              <div className={styles.info}>Created: {date.toString()}</div>
               <div className={styles.info}>Status: {status}</div>
             </div>
           </div>

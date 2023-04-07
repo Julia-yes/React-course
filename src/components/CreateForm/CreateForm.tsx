@@ -32,14 +32,10 @@ export const CreateForm = ({ callback }: IProps) => {
     setFile(event.target.files ? URL.createObjectURL(event.target.files[0]) : null);
   };
 
-  const deleteMessage = () => {
-    setShowMessage(false);
-  };
-
   const showMessageFunc = () => {
     setShowMessage(true);
     setTimeout(() => {
-      deleteMessage();
+      setShowMessage(false);
     }, 2000);
   };
 

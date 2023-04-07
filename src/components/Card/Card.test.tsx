@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Card } from './Card';
 import '@testing-library/jest-dom/extend-expect';
 import Enzyme from 'enzyme';
@@ -18,5 +18,14 @@ describe('Card', () => {
       <Card name={mockName} img={mockImg} status={mockStatus} id={mockId} callback={mockCallback} />
     );
     expect(screen.getByText(mockName)).toBeInTheDocument();
+  });
+  it('call callback after click on card with card id', () => {
+    const mockCallback = jest.fn();
+    render(
+      <Card name={mockName} img={mockImg} status={mockStatus} id={mockId} callback={mockCallback} />
+    );
+    fireEvent.click(screen.getByRole('heading'));
+    expect(mockCallback).toHaveBeenCalled();
+    expect(mockCallback).toHaveBeenCalledWith(mockId);
   });
 });

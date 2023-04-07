@@ -5,8 +5,7 @@ import { App } from './components/App/App';
 
 import './index.scss';
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-root.render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <BrowserRouter>
     <App />
   </BrowserRouter>

@@ -16,7 +16,7 @@ export const Pagination = ({ callback, activePage, coutOfPages }: IProps) => {
       >
         Prev
       </button>
-      <div className={styles.info}>
+      <div className={styles.info} data-testid='sectionTest'>
         Page {activePage} of {coutOfPages}
       </div>
       <button

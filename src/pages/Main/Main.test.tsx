@@ -12,4 +12,15 @@ describe('Main', () => {
   //   const imgs = screen.getAllByRole('img');
   //   expect(imgs.length).toBe(Users.length);
   // });
+  // it('updates searchValue after changing search in local storage', () => {
+  //   const callback = jest.fn();
+  //   const searchValue = 'apple';
+  //   render(<Search callback={callback} />);
+  //   const input = screen.getByPlaceholderText('search');
+  //   fireEvent.change(input, { target: { value: searchValue } });
+  //   expect(callback).toHaveBeenCalledWith(searchValue);
+  //   localStorage.setItem('search', searchValue);
+  //   render(<Search callback={callback} />);
+  //   expect((input as HTMLInputElement).value).toBe(searchValue);
+  // });
 });
