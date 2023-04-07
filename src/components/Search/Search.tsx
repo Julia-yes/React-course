@@ -1,16 +1,15 @@
+import { DataContext } from 'context/Context';
 import styles from './Search.module.scss';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
-type IProps = {
-  callback(value: string): void;
-};
-
-export const Search = ({ callback }: IProps) => {
-  const [searchValue, setSearchValue] = useState(localStorage.getItem('search'));
+export const Search = () => {
+  const { setNewValue } = useContext(DataContext);
+  const [search, setSearchValue] = useState(localStorage.getItem('search'));
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.code === 'Enter') {
-      callback(searchValue ? searchValue : '');
+      setNewValue(search ? search : '');
+      localStorage.setItem('search', search ? search : '');
     }
   };
 
@@ -24,12 +23,15 @@ export const Search = ({ callback }: IProps) => {
           onChange={(e) => {
             setSearchValue(e.currentTarget.value);
           }}
-          value={searchValue ? searchValue : ''}
+          value={search ? search : ''}
         ></input>
         <button
           type='button'
           className={styles.button}
-          onClick={(e) => callback(searchValue ? searchValue : '')}
+          onClick={(e) => {
+            setNewValue(search ? search : '');
+            localStorage.setItem('search', search ? search : '');
+          }}
         >
           Submit
         </button>

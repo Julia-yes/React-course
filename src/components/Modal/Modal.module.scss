@@ -31,9 +31,13 @@
 
 .avatar {
   width: 200px;
+  height: 200px;
   border-radius: 50%;
   border: 3px solid $turquoise-dark;
   object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .title {

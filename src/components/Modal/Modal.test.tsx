@@ -11,7 +11,6 @@ const mockImg =
 const mockStatus = 'Alive';
 const gender = 'male';
 const type = 'human';
-const created = 'human';
 const species = 'human';
 const mockCallback = jest.fn();
 
@@ -24,7 +23,6 @@ describe('Modal', () => {
         status={mockStatus}
         gender={gender}
         type={type}
-        created={created}
         species={species}
         callback={mockCallback}
       />
