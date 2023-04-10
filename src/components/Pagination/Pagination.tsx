@@ -14,9 +14,9 @@ export const Pagination = ({ pages }: IProps) => {
   const changePage = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const newValue = e.currentTarget.innerHTML === 'Prev' ? activePage - 1 : activePage + 1;
     setNewActivePage(newValue);
-    setNewLoading();
+    setNewLoading(true);
     setNewData(await LoadSource(searchValue, newValue));
-    setNewLoading();
+    setNewLoading(false);
   };
 
   return (

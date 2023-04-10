@@ -8,7 +8,7 @@ interface IDataContext {
   data: IData | null;
   setNewData(newData: IData | null): void;
   loading: boolean;
-  setNewLoading(): void;
+  setNewLoading(value: boolean): void;
   character: ICharacter | null;
   setNewCharacter(newData: ICharacter | null): void;
   activePage: number;
@@ -44,8 +44,8 @@ export const DataProvider = memo(({ children }: PropsWithChildren) => {
   };
 
   const [loading, setLoading] = useState(false);
-  const setNewLoading = () => {
-    setLoading(!loading);
+  const setNewLoading = (value: boolean) => {
+    setLoading(value);
   };
 
   const [character, setCharacter] = useState<ICharacter | null>(null);

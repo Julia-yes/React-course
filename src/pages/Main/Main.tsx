@@ -16,11 +16,11 @@ export const Main = () => {
 
   const showModal = useCallback(
     async (id: number) => {
-      setNewLoading();
+      setNewLoading(true);
       setModal(true);
       setOverLay(true);
       setNewCharacter(await LoadCharacter(id));
-      setNewLoading();
+      setNewLoading(false);
     },
     [setNewCharacter, setNewLoading]
   );
