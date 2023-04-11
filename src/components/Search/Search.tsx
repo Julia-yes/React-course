@@ -1,14 +1,15 @@
-import { DataContext } from 'context/Context';
 import styles from './Search.module.scss';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
+import { useAppDispatch } from 'redux/hooks';
+import { setNewValue } from 'redux/searchReducer';
 
 export const Search = () => {
-  const { setNewValue } = useContext(DataContext);
+  const dispatch = useAppDispatch();
   const [search, setSearchValue] = useState(localStorage.getItem('search'));
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.code === 'Enter') {
-      setNewValue(search ? search : '');
+      dispatch(setNewValue(search ? search : ''));
       localStorage.setItem('search', search ? search : '');
     }
   };
@@ -29,8 +30,7 @@ export const Search = () => {
           type='button'
           className={styles.button}
           onClick={(e) => {
-            setNewValue(search ? search : '');
-            localStorage.setItem('search', search ? search : '');
+            dispatch(setNewValue(search ? search : ''));
           }}
         >
           Submit
