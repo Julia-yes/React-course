@@ -1,12 +1,12 @@
 import { CreateForm } from 'components/CreateForm/CreateForm';
 import { Post } from 'components/Post/Post';
 import styles from './Posts.module.scss';
-import { useContext, useState } from 'react';
-import { DataContext } from 'context/Context';
+import { useState } from 'react';
+import { useAppSelector } from 'redux/hooks';
 
 export const Posts = () => {
   const [showForm, setShowForm] = useState(false);
-  const { posts } = useContext(DataContext);
+  const posts = useAppSelector((state) => state.posts.posts);
 
   const changeshowForm = () => {
     setShowForm(!showForm);

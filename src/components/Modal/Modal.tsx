@@ -1,30 +1,36 @@
+import { useGetCharacterQuery } from 'redux/API';
 import styles from './Modal.module.scss';
-import React from 'react';
 
 type IProps = {
-  name: string | undefined;
-  status: string | undefined;
-  gender: string | undefined;
-  image: string | undefined;
-  type: string | undefined;
-  species: string | undefined;
+  id: number | null;
   callback(): void;
 };
 
-export const Modal = ({ name, image, status, gender, type, species, callback }: IProps) => {
+export const Modal = ({ id, callback }: IProps) => {
+  const { data, error, isFetching } = useGetCharacterQuery(id);
   return (
     <div className={styles.wrapper}>
       <div className={styles.card}>
         <div className={styles.cardTop}>
           <div className={styles.userInfo}>
-            <img src={image} className={styles.avatar} alt='avatar'></img>
-            <div className={styles.content}>
-              <h3 className={styles.title}>{name}</h3>
-              <div className={styles.info}>Gender: {gender}</div>
-              <div className={styles.info}>Type: {type}</div>
-              <div className={styles.info}>Species: {species}</div>
-              <div className={styles.info}>Status: {status}</div>
-            </div>
+            {isFetching ? (
+              <div className={styles.loaderWrapper}>
+                <span className={styles.loader}></span>
+              </div>
+            ) : (
+              <img src={data?.image} className={styles.avatar} alt='avatar'></img>
+            )}
+            {error ? (
+              <div>Something wrong</div>
+            ) : (
+              <div className={styles.content}>
+                <h3 className={styles.title}>{isFetching ? `Loading...` : data?.name}</h3>
+                <div className={styles.info}>Gender: {data?.gender}</div>
+                <div className={styles.info}>Type: {data?.type}</div>
+                <div className={styles.info}>Species: {data?.species}</div>
+                <div className={styles.info}>Status: {data?.status}</div>
+              </div>
+            )}
           </div>
           <button className={styles.button} onClick={callback}>
             <span className={`material-icons ${styles.icon}`}>close</span>

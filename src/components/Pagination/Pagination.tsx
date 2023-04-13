@@ -1,43 +1,37 @@
-import { useContext } from 'react';
 import styles from './Pagination.module.scss';
-import { DataContext } from 'context/Context';
-import { LoadSource } from 'context/LoadSource';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { setNewPage } from 'redux/searchReducer';
 
 type IProps = {
   pages: number | null;
 };
 
 export const Pagination = ({ pages }: IProps) => {
-  const { activePage, setNewActivePage, setNewLoading, setNewData, searchValue } =
-    useContext(DataContext);
+  const page = useAppSelector((state) => state.data.page);
+  const dispatch = useAppDispatch();
 
   const changePage = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    const newValue = e.currentTarget.innerHTML === 'Prev' ? activePage - 1 : activePage + 1;
-    setNewActivePage(newValue);
-    setNewLoading(true);
-    setNewData(await LoadSource(searchValue, newValue));
-    setNewLoading(false);
+    const newValue = e.currentTarget.innerHTML === 'Prev' ? page - 1 : page + 1;
+    dispatch(setNewPage(newValue));
   };
 
   return (
     <div className={styles.wrapper}>
       <button
-        className={activePage === 1 ? `${styles.button} ${styles.buttonDisable}` : styles.button}
+        className={page === 1 ? `${styles.button} ${styles.buttonDisable}` : styles.button}
         onClick={async (e) => {
           changePage(e);
         }}
-        disabled={activePage === 1 ? true : false}
+        disabled={page === 1 ? true : false}
       >
         Prev
       </button>
       <div className={styles.info} data-testid='sectionTest'>
-        Page {activePage} of {pages}
+        Page {page} of {pages}
       </div>
       <button
-        className={
-          activePage === pages ? `${styles.button} ${styles.buttonDisable}` : styles.button
-        }
-        disabled={activePage === pages ? true : false}
+        className={page === pages ? `${styles.button} ${styles.buttonDisable}` : styles.button}
+        disabled={page === pages ? true : false}
         onClick={async (e) => {
           changePage(e);
         }}

@@ -1,3 +1,6 @@
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+
 export interface IUser {
   name: string;
   img: string;
@@ -10,6 +13,12 @@ export interface IUser {
 export interface IData {
   info: IResponseInfo;
   results: [ICharacter];
+}
+
+export interface IResponse {
+  data: IData;
+  error: FetchBaseQueryError | SerializedError | undefined;
+  isFetching: boolean;
 }
 
 export interface IResponseInfo {

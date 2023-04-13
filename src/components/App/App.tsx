@@ -4,11 +4,10 @@ import { Posts } from 'pages/Posts/Posts';
 import { Route, Routes } from 'react-router-dom';
 import { AboutUs } from '../../pages/AboutUs/AboutUs';
 import { NotFound } from '../NotFound/NotFound';
-import { DataProvider } from 'context/Context';
 
 export const App = () => {
   return (
-    <DataProvider>
+    <>
       <Header />
       <Routes>
         <Route path='/' element={<Main />} />
@@ -16,6 +15,6 @@ export const App = () => {
         <Route path='/about' element={<AboutUs />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
-    </DataProvider>
+    </>
   );
 };

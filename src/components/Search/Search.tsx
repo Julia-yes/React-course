@@ -1,22 +1,27 @@
 import styles from './Search.module.scss';
 import { useState } from 'react';
-import { useAppDispatch } from 'redux/hooks';
-import { setNewValue } from 'redux/searchReducer';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { setNewSearch } from 'redux/searchReducer';
 
 export const Search = () => {
   const dispatch = useAppDispatch();
-  const [search, setSearchValue] = useState(localStorage.getItem('search'));
+  const searchInit = useAppSelector((state) => state.data.search);
+  const [search, setSearchValue] = useState(searchInit);
 
-  const onKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
+  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.code === 'Enter') {
-      dispatch(setNewValue(search ? search : ''));
-      localStorage.setItem('search', search ? search : '');
+      e.preventDefault();
+      changeSearchValue();
     }
+  };
+
+  const changeSearchValue = () => {
+    dispatch(setNewSearch(search ? search : ''));
   };
 
   return (
     <aside>
-      <form onKeyDown={(e) => onKeyDown(e)}>
+      <form>
         <input
           type='text'
           placeholder='search'
@@ -24,15 +29,10 @@ export const Search = () => {
           onChange={(e) => {
             setSearchValue(e.currentTarget.value);
           }}
+          onKeyDown={(e) => onKeyDown(e)}
           value={search ? search : ''}
         ></input>
-        <button
-          type='button'
-          className={styles.button}
-          onClick={(e) => {
-            dispatch(setNewValue(search ? search : ''));
-          }}
-        >
+        <button type='button' className={styles.button} onClick={changeSearchValue}>
           Submit
         </button>
       </form>

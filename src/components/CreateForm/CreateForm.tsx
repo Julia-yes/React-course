@@ -1,7 +1,8 @@
 import styles from './CreateForm.module.scss';
 import { useForm } from 'react-hook-form';
-import { useContext, useState } from 'react';
-import { DataContext } from 'context/Context';
+import { useState } from 'react';
+import { useAppDispatch } from 'redux/hooks';
+import { setPost } from 'redux/postsReducer';
 
 type FormValues = {
   title: string;
@@ -13,7 +14,7 @@ type FormValues = {
 };
 
 export const CreateForm = () => {
-  const { setNewPost } = useContext(DataContext);
+  const dispatch = useAppDispatch();
   const [file, setFile] = useState<string | null>(null);
   const [showMessage, setShowMessage] = useState(false);
   const [fileError, setFileError] = useState(false);
@@ -37,15 +38,17 @@ export const CreateForm = () => {
   };
 
   const sendData = (data: FormValues) => {
-    setNewPost({
-      title: data.title,
-      category: data.category,
-      description: data.description,
-      file: file ? file : undefined,
-      color: data.color,
-      date: data.date,
-      key: Date.now(),
-    });
+    dispatch(
+      setPost({
+        title: data.title,
+        category: data.category,
+        description: data.description,
+        file: file ? file : undefined,
+        color: data.color,
+        date: data.date,
+        key: Date.now(),
+      })
+    );
   };
 
   const onSubmit = handleSubmit((data) => {

@@ -1,26 +1,37 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
 import type { RootState } from './store';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 
-interface SearchState {
-  value: string;
+interface DataState {
+  search: string;
+  page: number;
+  isFetching: boolean;
+  error: FetchBaseQueryError | SerializedError | undefined;
 }
 
-const initialState: SearchState = {
-  value: '',
+const initialState: DataState = {
+  search: '',
+  page: 1,
+  isFetching: false,
+  error: undefined,
 };
 
-export const searchSlice = createSlice({
-  name: 'searchValue',
+export const dataSlice = createSlice({
+  name: 'data',
   initialState,
   reducers: {
-    setNewValue: (state, action: PayloadAction<string>) => {
-      state.value = action.payload;
+    setNewSearch: (state, action: PayloadAction<string>) => {
+      state.search = action.payload;
+      state.page = 1;
+    },
+    setNewPage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
     },
   },
 });
 
-export const { setNewValue } = searchSlice.actions;
+export const { setNewSearch, setNewPage } = dataSlice.actions;
 
-export const selectCount = (state: RootState) => state.searchValue.value;
+export const selectData = (state: RootState) => state.data.search;
 
-export default searchSlice.reducer;
+export default dataSlice.reducer;
