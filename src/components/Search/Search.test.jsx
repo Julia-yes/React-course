@@ -1,115 +1,94 @@
-import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Search } from './Search';
 import '@testing-library/jest-dom/extend-expect';
 import Enzyme from 'enzyme';
 import Adapter from '@cfaester/enzyme-adapter-react-18';
-import { DataContext } from '../../context/Context';
+import { Provider } from 'react-redux';
+import { store } from 'redux/store';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('Search', () => {
   it('render Search component', () => {
-    render(<Search />);
+    render(
+      <Provider store={store}>
+        <Search />
+      </Provider>
+    );
     expect(screen.getByPlaceholderText(/search/i)).toBeInTheDocument();
   });
   it('input value depend on state of component', () => {
-    render(<Search />);
+    render(
+      <Provider store={store}>
+        <Search />
+      </Provider>
+    );
     userEvent.type(screen.getByRole('textbox'), 'test');
     expect(screen.getByRole('textbox')).toHaveValue('');
   });
+  it('change search content after click button', async () => {
+    render(
+      <Provider store={store}>
+        <Search />
+      </Provider>
+    );
+    const search = screen.getByRole('textbox');
+    expect(search).toHaveValue('');
+    fireEvent.change(search, {
+      target: {
+        value: 'test',
+      },
+    });
+    await waitFor(() => {
+      expect(search).toHaveValue('test');
+    });
+  });
 
-  const setNewValue = jest.fn();
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
   });
 
-  it('should set the search value in local storage when submitting the form', () => {
+  it('should not set the search value in context when press Esc', async () => {
     render(
-      <DataContext.Provider value={{ setNewValue }}>
+      <Provider store={store}>
         <Search />
-      </DataContext.Provider>
+      </Provider>
     );
-    const input = screen.getByPlaceholderText('search');
-    const button = screen.getByRole('button', { name: 'Submit' });
-    fireEvent.change(input, { target: { value: 'Morty' } });
-    fireEvent.click(button);
-    expect(localStorage.getItem('search')).toBe('Morty');
+    const search = screen.getByRole('textbox');
+    expect(search).toHaveValue('');
+    fireEvent.change(search, {
+      target: {
+        value: 'test',
+      },
+    });
+    fireEvent.keyDown(search, { key: 'Esc', code: 'Esc' });
+    await waitFor(() => {
+      <Provider store={store}>
+        <Search />
+      </Provider>;
+    });
+    expect(search).toHaveValue('test');
   });
-
-  it('should set the search value in context when submitting the form', () => {
+  it('should set the search value in context when press Enter', async () => {
     render(
-      <DataContext.Provider value={{ setNewValue }}>
+      <Provider store={store}>
         <Search />
-      </DataContext.Provider>
+      </Provider>
     );
-    const input = screen.getByPlaceholderText('search');
-    const button = screen.getByRole('button', { name: 'Submit' });
-    fireEvent.change(input, { target: { value: 'Morty' } });
-    fireEvent.click(button);
-    expect(setNewValue).toHaveBeenCalled();
-    expect(setNewValue).toHaveBeenCalledWith('Morty');
-  });
-
-  it('should set empty value in context when submitting the form', () => {
-    render(
-      <DataContext.Provider value={{ setNewValue }}>
+    const search = screen.getByRole('textbox');
+    expect(search).toHaveValue('');
+    fireEvent.change(search, {
+      target: {
+        value: 'test',
+      },
+    });
+    fireEvent.keyDown(search, { key: 'Enter', code: 'Enter' });
+    await waitFor(() => {
+      <Provider store={store}>
         <Search />
-      </DataContext.Provider>
-    );
-    const input = screen.getByPlaceholderText('search');
-    const button = screen.getByRole('button', { name: 'Submit' });
-    fireEvent.change(input, { target: { value: null } });
-    fireEvent.click(button);
-    expect(setNewValue).toHaveBeenCalled();
-    expect(setNewValue).toHaveBeenCalledWith('');
-  });
-
-  it('should set the search value in context when press Enter', () => {
-    render(
-      <DataContext.Provider value={{ setNewValue }}>
-        <Search />
-      </DataContext.Provider>
-    );
-    const input = screen.getByRole('textbox');
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
-    expect(setNewValue).toHaveBeenCalled();
-  });
-
-  it('should not set the search value in context when press Enter', () => {
-    render(
-      <DataContext.Provider value={{ setNewValue }}>
-        <Search />
-      </DataContext.Provider>
-    );
-    const input = screen.getByRole('textbox');
-    fireEvent.keyDown(input, { key: 'Esc', code: 'Esc' });
-    expect(setNewValue).not.toHaveBeenCalled();
-  });
-
-  it('should set the search value like initialState in context when press Enter', () => {
-    const myInitialState = 'My Initial State';
-    React.useState = jest.fn().mockReturnValue([myInitialState, {}]);
-    render(
-      <DataContext.Provider value={{ setNewValue }}>
-        <Search />
-      </DataContext.Provider>
-    );
-    const input = screen.getByRole('textbox');
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', charCode: 13 });
-    expect(setNewValue).toHaveBeenCalledWith(myInitialState);
-  });
-
-  it('must change state after change input value', () => {
-    const setState = jest.fn();
-    const useStateSpy = jest.spyOn(React, 'useState');
-    useStateSpy.mockImplementation((initialState) => [initialState, setState]);
-    const changeSearchValue = jest.fn();
-    render(<Search callback={changeSearchValue} />);
-    const input = screen.getByRole('textbox');
-    fireEvent.change(input, { target: { value: 'test' } });
-    expect(setState).toHaveBeenCalled();
-    expect(setState).toHaveBeenCalledWith('test');
+      </Provider>;
+    });
+    expect(search).toHaveValue('test');
   });
 });

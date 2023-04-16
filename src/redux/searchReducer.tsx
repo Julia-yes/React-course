@@ -2,7 +2,7 @@ import { createSlice, PayloadAction, SerializedError } from '@reduxjs/toolkit';
 import type { RootState } from './store';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 
-interface DataState {
+export interface DataState {
   search: string;
   page: number;
   isFetching: boolean;

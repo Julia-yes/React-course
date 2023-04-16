@@ -1,57 +1,28 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import Enzyme from 'enzyme';
 import Adapter from '@cfaester/enzyme-adapter-react-18';
 import { Pagination } from './Pagination';
-import { DataContext } from 'context/Context';
+import { Provider } from 'react-redux';
+import { store } from 'redux/store';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('Pagination', () => {
-  it('render Pagination component', () => {
-    render(<Pagination pages={8} />);
+  it('render Pagination component', async () => {
+    render(
+      <Provider store={store}>
+        <Pagination pages={8} />
+      </Provider>
+    );
     expect(screen.getByText(/Prev/i)).toBeInTheDocument();
-  });
-  it('call callback after click on button Prev', async () => {
-    const setNewActivePage = jest.fn();
-    const setNewLoading = jest.fn();
-    const setNewData = jest.fn();
-    const activePage = 6;
-    const searchValue = '';
-
-    render(
-      <DataContext.Provider
-        value={{ activePage, setNewActivePage, setNewLoading, setNewData, searchValue }}
-      >
-        <Pagination pages={8} />
-      </DataContext.Provider>
-    );
-
-    const button = screen.getByText('Prev');
-    fireEvent.click(button);
-    expect(setNewActivePage).toHaveBeenCalled();
-    expect(setNewActivePage).toHaveBeenCalledWith(6 - 1);
-    expect(setNewLoading).toHaveBeenCalled();
-    expect(setNewLoading).toHaveBeenCalled();
-  });
-  it('call callback after click on button Next', () => {
-    const setNewActivePage = jest.fn();
-    const setNewLoading = jest.fn();
-    const setNewData = jest.fn();
-    const activePage = 6;
-    const searchValue = 'mm';
-
-    render(
-      <DataContext.Provider
-        value={{ activePage, setNewActivePage, setNewLoading, setNewData, searchValue }}
-      >
-        <Pagination pages={8} />
-      </DataContext.Provider>
-    );
-
-    const button = screen.getByText('Next');
-    fireEvent.click(button);
-    expect(setNewActivePage).toHaveBeenCalled();
-    expect(setNewActivePage).toHaveBeenCalledWith(6 + 1);
-    expect(setNewLoading).toHaveBeenCalled();
+    expect(screen.getByText(/Next/i)).toBeInTheDocument();
+    const prev = screen.getByText(/prev/i);
+    const next = screen.getByText(/next/i);
+    expect(prev).toBeDisabled();
+    expect(next).not.toBeDisabled();
+    fireEvent.click(next);
+    await waitFor(() => {
+      expect(prev).not.toBeDisabled();
+    });
   });
 });

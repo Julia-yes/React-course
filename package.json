@@ -3,8 +3,7 @@
   "jest": {
     "coveragePathIgnorePatterns": [
       "src/index.tsx",
-      "src/interfaces.ts",
-      "src/context"
+      "src/interfaces.ts"
     ]
   },
   "homepage": "/",

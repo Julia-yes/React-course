@@ -11,13 +11,12 @@ type FormValues = {
   date: string;
   color: string;
   license: boolean;
+  file: FileList | null;
 };
 
 export const CreateForm = () => {
   const dispatch = useAppDispatch();
-  const [file, setFile] = useState<string | null>(null);
   const [showMessage, setShowMessage] = useState(false);
-  const [fileError, setFileError] = useState(false);
 
   const {
     register,
@@ -25,10 +24,6 @@ export const CreateForm = () => {
     formState: { errors },
     reset,
   } = useForm<FormValues>({ mode: 'onSubmit', reValidateMode: 'onSubmit' });
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFile(event.target.files ? URL.createObjectURL(event.target.files[0]) : null);
-  };
 
   const showMessageFunc = () => {
     setShowMessage(true);
@@ -38,24 +33,26 @@ export const CreateForm = () => {
   };
 
   const sendData = (data: FormValues) => {
-    dispatch(
-      setPost({
-        title: data.title,
-        category: data.category,
-        description: data.description,
-        file: file ? file : undefined,
-        color: data.color,
-        date: data.date,
-        key: Date.now(),
-      })
-    );
+    if (data.file) {
+      const img = data.file[0];
+      const imgUrl = URL.createObjectURL(img);
+      dispatch(
+        setPost({
+          title: data.title,
+          category: data.category,
+          description: data.description,
+          file: imgUrl,
+          color: data.color,
+          date: data.date,
+          key: Date.now(),
+        })
+      );
+    }
   };
 
   const onSubmit = handleSubmit((data) => {
     showMessageFunc();
     sendData(data);
-    setFile(null);
-    setFileError(false);
     reset({
       title: '',
       category: '',
@@ -63,22 +60,14 @@ export const CreateForm = () => {
       date: '',
       color: '',
       license: false,
+      file: null,
     });
   });
-
-  const checkFile = () => {
-    if (!file) {
-      setFileError(true);
-    } else {
-      setFileError(false);
-    }
-  };
 
   return (
     <form
       onSubmit={(e) => {
         onSubmit(e);
-        checkFile();
       }}
       className={styles.form}
     >
@@ -133,15 +122,15 @@ export const CreateForm = () => {
           <input
             id='file'
             type='file'
-            name='file'
             accept='image/png, image/jpeg'
             data-testid='sectionTest'
             style={{ display: 'none' }}
-            onChange={handleImageUpload}
+            {...register('file', {
+              required: 'Add photo',
+            })}
           />
         </label>
-        {file && <span className={`material-icons ${styles.icon}`}>done</span>}
-        {fileError && <div className={styles.error}>Add photo</div>}
+        {errors.file && <div className={styles.error}>{errors.file.message}</div>}
       </div>
       <div className={styles.block}>
         <label>
