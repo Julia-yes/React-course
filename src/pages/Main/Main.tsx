@@ -6,12 +6,9 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { Loading } from 'components/Loading/Loading';
 import { Modal } from 'components/Modal/Modal';
 import { useAppSelector } from 'redux/hooks';
-import { useGetDataQuery } from 'redux/API';
 
 export const Main = () => {
-  const search = useAppSelector((state) => state.data.search);
-  const page = useAppSelector((state) => state.data.page);
-  const { data, error, isFetching } = useGetDataQuery({ search: search, page: page });
+  const { data, loading, error } = useAppSelector((state) => state.data);
 
   const [id, setId] = useState<number | null>(null);
   const [modal, setModal] = useState(false);
@@ -30,7 +27,7 @@ export const Main = () => {
 
   return (
     <div className={styles.wrapper}>
-      {isFetching && <Loading type={'spinningBubbles'} color={'#6bc8be'} />}
+      {loading && <Loading type={'spinningBubbles'} color={'#6bc8be'} />}
       <Search />
       <section>
         <h2 className={styles.title}>Characters</h2>
